@@ -18,16 +18,16 @@ class Image(object):
         self.image_data = image.read()
         self._id = uuid.uuid4().hex if _id is None else _id
 
+    # def json(self):
+    #     return {
+    #         "_id": self._id,
+    #         "user_id": self.user_id,
+    #         "image_filename": self.image_filename
+    #     }
+
     def json(self):
         return {
-            "_id": self._id,
-            "user_id": self.user_id,
-            "image_filename": self.image_filename
-        }
-
-    def json_rest(self):
-        return {
-            "_id": self._id,
+            "id": self._id,
             "userId": self.user_id,
             "imageFilename": self.image_filename
         }
@@ -125,6 +125,7 @@ class Image(object):
     @staticmethod
     def rotate_image(image, direction):
         img = PImage.open(BytesIO(image))
+        radius = None
         if direction == 'R':
             radius = 270
         elif direction == 'L':
@@ -135,3 +136,5 @@ class Image(object):
             img_byte_array = BytesIO()
             new_img.save(img_byte_array, format='png')
             return img_byte_array.getvalue()
+
+        return None

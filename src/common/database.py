@@ -18,7 +18,8 @@ class Database(object):
     def initialize():
         if Database.CONNECTION is None:
             os.makedirs(Database.DB_DIR, exist_ok=True)
-            Database.CONNECTION = sqlite3.connect(Database.DB_PATH)
+            # Database.CONNECTION = sqlite3.connect(Database.DB_PATH)
+            Database.CONNECTION = sqlite3.connect(Database.DB_PATH, check_same_thread=False)
             Database.CONNECTION.row_factory = sqlite3.Row
             Database._create_default_tables()
             print(f"Connected to SQLite DB: {Database.DB_PATH}")

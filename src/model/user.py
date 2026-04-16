@@ -98,18 +98,19 @@ class User(DbObject):
         #TODO: return something more meaningful than True
         return True
 
-    def resolve_roles(self):
-        if self.roles is not None and type(self.roles) == str:
-            return self.roles
-        else:
-            return None
+    # def resolve_roles(self):
+    #     if self.roles is not None and type(self.roles) == str:
+    #         return self.roles
+    #     else:
+    #         return None
 
     # def json(self):
     #     return {
     #         "_id": self._id,
     #         "username": self.username,
     #         "user_type": self.user_type,
-    #         "role": self.resolve_roles(),
+    #         # "role": self.resolve_roles(),
+    #         "role": self.roles.json(),
     #         "email": self.email,
     #         "password": self.password,
     #         "first_name": self.first_name,
@@ -117,21 +118,23 @@ class User(DbObject):
     #         "active": self.active,
     #         "deleted": self.deleted
     #     }
-    #
-    # def json_rest(self):
-    #     return {
-    #         "id": self._id,
-    #         "username": self.username,
-    #         "userName": self.username,
-    #         "userType": self.user_type,
-    #         "type": self.user_type,
-    #         "role": self.resolve_roles(),
-    #         "email": self.email,
-    #         "firstName": self.first_name,
-    #         "lastName": self.last_name,
-    #         "active": self.active,
-    #         "deleted": self.deleted
-    #     }
+
+    def json(self):
+        return {
+            "id": self._id,
+            "username": self.username,
+            "userName": self.username,
+            "userType": self.user_type,
+            "type": self.user_type,
+            "role": self.roles.json(),
+            # "role": self.resolve_roles(),
+            # "roles": [role.json() for role in self.roles] if not None else [],
+            "email": self.email,
+            "firstName": self.first_name,
+            "lastName": self.last_name,
+            "active": self.active,
+            "deleted": self.deleted
+        }
 
     def insert_user(self):
         Database.insert("users", self.json())
@@ -166,7 +169,8 @@ class LoggedUser(User):
             "lastName": self.last_name,
             "email": self.email,
             "type": self.user_type,
-            "roles": [role.json() for role in self.roles] if not None else [],
+            "roles": self.roles.json(), # there is a single role for now
+            # "roles": [role.json() for role in self.roles] if not None else [],
             "isAuthenticated": self.is_authenticated,
             "token": self.token
         }
