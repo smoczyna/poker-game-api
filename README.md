@@ -12,9 +12,13 @@ Some more stuff needs to be sorted out first.
 
 - /api/game/all - lists all active games
 - /api/game/new - creates a new game
-- api/game/{game_id}/add-player/{player_name} - joins an existing game
+- /api/game/{game_id}/add-player/{player_name} - joins an existing game
 - /api/game/{game_id}/replace-cards - makes a move in a game
 - /api/game/{game_id}/resolve - evaluates all hands and determine the winner
 - /api/game/{game_id}/reveal - prints out all hands and their results
 
-There are be also /api/user endpoints but they are not play the role yet.
+There area also:
+- /api/auth/* endpoints to user authentication
+- /api/user/* endpoints, but they are not play the role yet.
+
+UI is on the way. 

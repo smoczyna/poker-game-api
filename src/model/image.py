@@ -10,6 +10,7 @@ __author__ = 'smok'
 
 MAX_IMAGE_SIZE = 200
 
+#TODO: this is image class for Mongo only, doesn't work with SQLite
 class Image(object):
 
     def __init__(self, user_id, image, _id=None):
@@ -17,13 +18,6 @@ class Image(object):
         self.image_filename = image.filename
         self.image_data = image.read()
         self._id = uuid.uuid4().hex if _id is None else _id
-
-    # def json(self):
-    #     return {
-    #         "_id": self._id,
-    #         "user_id": self.user_id,
-    #         "image_filename": self.image_filename
-    #     }
 
     def json(self):
         return {

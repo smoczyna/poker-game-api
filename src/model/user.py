@@ -58,7 +58,7 @@ class User(DbObject):
         return None
 
     @staticmethod
-    def is_login_valid1(username, password):
+    def is_username_valid(username, password):
         user_data = Database.find_one("users", {"username": username})
         if user_data is None:
             raise UserNotExistsError('There is no such user registered yet')
@@ -69,7 +69,7 @@ class User(DbObject):
         return user_data['_id']
 
     @staticmethod
-    def is_login_valid2(email, password):
+    def is_email_valid(email, password):
         user_data = Database.find_one("users", {"email": email})
         if user_data is None:
             raise UserNotExistsError('There is no such user registered yet')
@@ -98,27 +98,6 @@ class User(DbObject):
         #TODO: return something more meaningful than True
         return True
 
-    # def resolve_roles(self):
-    #     if self.roles is not None and type(self.roles) == str:
-    #         return self.roles
-    #     else:
-    #         return None
-
-    # def json(self):
-    #     return {
-    #         "_id": self._id,
-    #         "username": self.username,
-    #         "user_type": self.user_type,
-    #         # "role": self.resolve_roles(),
-    #         "role": self.roles.json(),
-    #         "email": self.email,
-    #         "password": self.password,
-    #         "first_name": self.first_name,
-    #         "last_name": self.last_name,
-    #         "active": self.active,
-    #         "deleted": self.deleted
-    #     }
-
     def json(self):
         return {
             "id": self._id,
@@ -127,8 +106,6 @@ class User(DbObject):
             "userType": self.user_type,
             "type": self.user_type,
             "role": self.roles.json(),
-            # "role": self.resolve_roles(),
-            # "roles": [role.json() for role in self.roles] if not None else [],
             "email": self.email,
             "firstName": self.first_name,
             "lastName": self.last_name,
@@ -178,8 +155,8 @@ class LoggedUser(User):
     @staticmethod
     def upload_user_image(user_id, image_file):
         image = Image(user_id, image_file)
-        image.save_to_mongo()
+        image.save_user_image()()
 
     @staticmethod
     def replace_user_image(user_id, image):
-        Image.replace_member_image(user_id, image)
+        Image.replace_user_image(user_id, image)
